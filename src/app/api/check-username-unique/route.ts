@@ -23,7 +23,7 @@ export async function GET(request: Request) {
           success: false,
           message:
             usernameErrors?.length > 0
-              ? usernameErrors.join(", ")
+              ? usernameErrors.join(", ") // these are error by zod
               : "Invalid query parameter",
         },
         {
