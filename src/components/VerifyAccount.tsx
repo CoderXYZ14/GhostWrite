@@ -69,11 +69,8 @@ const VerifyAccount = () => {
     <div className="w-full max-w-md p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
       <div className="text-center">
         <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
-          Create your account
+          Verify your account
         </h2>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          Join Ghost-Writes and start sending anonymous messages today!
-        </p>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -102,7 +99,11 @@ const VerifyAccount = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:from-purple-600 dark:to-indigo-700 dark:hover:from-purple-700 dark:hover:to-indigo-800"
+            disabled={isLoading}
+          >
             {isLoading ? "Verifying..." : "Verify Account"}
           </Button>
         </form>
