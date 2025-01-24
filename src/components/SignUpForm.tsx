@@ -127,7 +127,7 @@ export function SignUpForm() {
                 <p
                   className={`text-sm ${usernameMessage === "Username is unique" ? "text-green-500" : "text-red-500"}`}
                 >
-                  test {usernameMessage}
+                  {usernameMessage}
                 </p>
                 <FormMessage className="text-xs text-red-500 dark:text-red-400" />
               </FormItem>

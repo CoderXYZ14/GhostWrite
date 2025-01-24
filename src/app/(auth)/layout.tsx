@@ -1,3 +1,4 @@
+import AuthProvider from "@/context/AuthProvider";
 import "../globals.css";
 
 export const metadata = {
@@ -12,7 +13,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <AuthProvider>
+        <body
+          className={`min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900`}
+        >
+          {children}
+        </body>
+      </AuthProvider>
     </html>
   );
 }

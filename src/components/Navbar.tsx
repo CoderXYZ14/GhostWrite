@@ -12,12 +12,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useTheme } from "next-themes";
 
 const Navbar = () => {
   const { data: session } = useSession();
 
   const user: User = session?.user as User; //get user info from session
-  //   const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   return (
     <nav className="bg-white dark:bg-gray-800 shadow-md">
@@ -30,7 +31,7 @@ const Navbar = () => {
             </span>
           </Link>
           <div className="flex items-center space-x-4">
-            {!session ? (
+            {session ? (
               <div className="flex items-center space-x-4">
                 <span className="text-gray-700 dark:text-gray-300">
                   Welcome, {user?.name || "Hello"}

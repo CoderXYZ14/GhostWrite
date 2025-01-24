@@ -88,12 +88,12 @@ export function SignInForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Email/Username
+                  Email / Username
                 </FormLabel>
                 <FormControl>
                   <Input
                     type="text"
-                    placeholder="email/username"
+                    placeholder="email / username"
                     className="mt-1"
                     {...field}
                   />
@@ -143,7 +143,7 @@ export function SignInForm() {
         <p className="text-sm text-gray-600 dark:text-gray-400">
           Already have an account?{" "}
           <Link
-            href="/signin"
+            href="/signup"
             className="font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
           >
             Sign in
