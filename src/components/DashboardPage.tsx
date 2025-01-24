@@ -108,9 +108,9 @@ export default function DashboardPage() {
                   {messages.map((message) => (
                     <MessageCard
                       key={message.id}
-                      message={message.message}
+                      //   message={message.message}
                       timestamp={message.timestamp}
-                      onDelete={() => handleDeleteMessage(message.id)}
+                      onMessageDelete={() => handleDeleteMessage(message.id)}
                     />
                   ))}
                 </div>
