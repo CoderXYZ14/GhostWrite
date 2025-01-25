@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Copy } from "lucide-react";
 import { MessageCard } from "@/components/MessageCard";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,14 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import { Message } from "@/model/User";
+import { useSession } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
+import axios, { AxiosError } from "axios";
+import { ApiResponse } from "@/types/ApiResponse";
+import { User } from "next-auth";
 const initialMessages = [
   {
     id: 1,
@@ -28,14 +36,17 @@ const initialMessages = [
 ];
 
 export default function DashboardPage() {
-  const [acceptMessages, setAcceptMessages] = useState(true);
-  const [messages, setMessages] = useState(initialMessages);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSwitchLaoding, setIsSwitchLoading] = useState(false);
+
+  //we are using optimistic ui ie in frontend shows ui chnages but not done immediately in backend
+
   const { toast } = useToast();
-  const uniqueLink = "https://ghostwrites.app/u/username"; // Replace with actual user link
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(uniqueLink);
+      await navigator.clipboard.writeText(profileUrl);
       toast({
         title: "Link copied!",
         description: "Your unique link has been copied to clipboard.",
@@ -49,14 +60,107 @@ export default function DashboardPage() {
     }
   };
 
-  const handleDeleteMessage = (id: number) => {
-    setMessages(messages.filter((msg) => msg.id !== id));
+  const handleDeleteMessage = (messageId: string) => {
+    setMessages(messages.filter((msg) => msg._id !== messageId));
     toast({
       title: "Message deleted",
       description: "The message has been removed from your dashboard.",
     });
   };
 
+  const { data: session } = useSession();
+  const form = useForm({
+    resolver: zodResolver(acceptMessageSchema),
+  });
+
+  const { register, watch, setValue } = form;
+
+  const acceptMessages = watch("acceptMessages");
+  const fetchAcceptMessage = useCallback(async () => {
+    setIsSwitchLoading(true);
+    try {
+      const response = await axios.get<ApiResponse>("/api/accept-messages");
+      setValue("acceptMessages", response.data.isAcceptingMessages);
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({
+        title: "Error",
+        description:
+          axiosError.response?.data.message ||
+          "Failed to fetch message acceptance status",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSwitchLoading(false);
+    }
+  }, [setValue]);
+
+  const fetchMessages = useCallback(
+    async (refresh: boolean = false) => {
+      setIsLoading(false);
+      setIsSwitchLoading(false);
+      try {
+        const response = await axios.get<ApiResponse>("/api/get-messages");
+        setMessages(response.data.messages || []);
+        if (refresh) {
+          toast({
+            title: "Refreshed messages",
+            description: "Showing latest messages",
+          });
+        }
+      } catch (error) {
+        const axiosError = error as AxiosError<ApiResponse>;
+        toast({
+          title: "Error",
+          description:
+            axiosError.response?.data.message ||
+            "Failed to fetch message acceptance status",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+        setIsSwitchLoading(false);
+      }
+    },
+    [setIsLoading, setMessages]
+  );
+
+  useEffect(() => {
+    if (!session || !session.user) return;
+    fetchMessages();
+    fetchAcceptMessage();
+  }, [session, setValue, fetchAcceptMessage, fetchMessages]);
+
+  const handleSwitchChnage = async () => {
+    try {
+      const response = await axios.post<ApiResponse>("/api/accept-messages", {
+        acceptMessages: !acceptMessages,
+      });
+      setValue("acceptMessages", !acceptMessages);
+      toast({
+        title: response.data.message,
+        variant: "default",
+      });
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      toast({
+        title: "Error",
+        description:
+          axiosError.response?.data.message ||
+          "Failed to fetch message acceptance status",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const { username } = session?.user as User;
+
+  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const profileUrl = `${baseUrl}/u/${username}`;
+
+  if (!session || !session.user) {
+    return <div>Pleast login</div>;
+  }
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="space-y-8">
