@@ -4,6 +4,7 @@ import { Feature } from "@/components/Features";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Lock, Shield, Zap, CheckCircle } from "lucide-react";
+import Link from "next/link";
 
 const features = [
   {
@@ -44,19 +45,23 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Button
-                    size="lg"
-                    className="bg-purple-600 hover:bg-purple-700"
-                  >
-                    Get Started
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="dark:bg-purple-600"
-                  >
-                    Learn More
-                  </Button>
+                  <Link href="/signup">
+                    <Button
+                      size="lg"
+                      className="bg-purple-600 hover:bg-purple-700"
+                    >
+                      Get Started
+                    </Button>
+                  </Link>
+                  <Link href="/signup">
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="dark:bg-purple-600 dark:hover:bg-purple-700"
+                    >
+                      Learn More
+                    </Button>
+                  </Link>
                 </div>
                 <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
                   <div className="flex items-center">

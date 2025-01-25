@@ -73,7 +73,7 @@ export function SignUpForm() {
         title: "Success",
         description: response.data.message,
       });
-      router.replace(`/verify/${username}`);
+      router.replace(`/verify-code/${username}`);
       setIsSubmitting(false);
     } catch (error) {
       console.log("Error in signup of user: ", error);

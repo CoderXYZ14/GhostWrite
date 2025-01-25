@@ -1,6 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
 import UserModel, { Message } from "@/model/User";
-import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 
 export async function POST(request: Request) {
   await dbConnect();
