@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
-
+import { User } from "next-auth";
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
 
       async authorize(
         credentials: Record<string, string> | undefined
-      ): Promise<any> {
+      ): Promise<User | null> {
         if (!credentials?.username || !credentials?.password) {
           throw new Error("Email and password are required");
         }
@@ -47,7 +47,7 @@ export const authOptions: NextAuthOptions = {
           );
 
           if (isPasswordCorrect) {
-            return user;
+            return user as User; // Ensure proper type
           } else {
             throw new Error("Password is incorrect");
           }
