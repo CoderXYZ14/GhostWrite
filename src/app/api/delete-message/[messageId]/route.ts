@@ -5,17 +5,15 @@ import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { User } from "next-auth";
 
-export async function DELETE(
-  req: NextRequest,
-  context: { params: { messageId: string } }
-) {
-  const { messageId } = context.params;
+export async function DELETE(req: NextRequest) {
+  const searchParams = req.nextUrl.searchParams;
+  const messageId = searchParams.get("messageId");
 
   await dbConnect();
   const session = await getServerSession(authOptions);
   const user = session?.user as User;
 
-  if (!session || !session.user) {
+  if (!session || !user) {
     return NextResponse.json(
       { success: false, message: "Not Authenticated" },
       { status: 401 }
