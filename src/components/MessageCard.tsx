@@ -18,20 +18,15 @@ import axios from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 
 interface MessageCardProps {
-  message?: Message;
-  timestamp: string;
+  message: Message;
   onMessageDelete: (messageId: string) => void;
 }
 
-export function MessageCard({
-  message,
-  timestamp,
-  onMessageDelete,
-}: MessageCardProps) {
+export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   const { toast } = useToast();
   const handleDeleteConfirm = async () => {
     const response = await axios.delete<ApiResponse>(
-      `/api/delete-message/${message._id}`
+      `/api/delete-message/${message?._id}`
     );
     toast({
       title: response.data.message,
@@ -42,14 +37,15 @@ export function MessageCard({
     <Card className="relative group hover:shadow-md transition-shadow">
       <div className="p-4">
         <div className="flex justify-between items-start">
-          <p className="text-sm text-muted-foreground mb-2">{timestamp}</p>
+          <p className="text-sm text-muted-foreground mb-2">
+            {message?.createdAt?.toLocaleString()}
+          </p>
           <AlertDialog>
             <AlertDialogTrigger>
               <Button
                 variant="ghost"
                 size="icon"
                 className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={onMessageDelete}
               >
                 <X className="h-4 w-4 text-red-500" />
               </Button>
@@ -71,7 +67,9 @@ export function MessageCard({
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <p className="text-base text-foreground">{message}</p>
+        <p className="text-base text-foreground">
+          {message?.content || "Hello World"}
+        </p>
       </div>
     </Card>
   );

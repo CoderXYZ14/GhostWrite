@@ -16,22 +16,20 @@ import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import { User } from "next-auth";
+
 const initialMessages = [
   {
-    id: 1,
-    message: "What's your favorite movie?",
-    timestamp: "Jan 30, 2024 6:15 PM",
+    content: "What's your favorite movie?",
+    createdAt: new Date("2024-01-30T18:15:00"),
   },
   {
-    id: 2,
-    message: "Share a favorite childhood memory.",
-    timestamp: "Jan 4, 2024 9:01 PM",
+    content: "Share a favorite childhood memory.",
+    createdAt: new Date("2024-01-04T21:01:00"),
   },
   {
-    id: 3,
-    message:
+    content:
       "What's something you've always wanted to learn, but haven't had the chance yet?",
-    timestamp: "Mar 13, 2024 2:06 AM",
+    createdAt: new Date("2024-03-13T02:06:00"),
   },
 ];
 
@@ -131,7 +129,7 @@ export default function DashboardPage() {
     fetchAcceptMessage();
   }, [session, setValue, fetchAcceptMessage, fetchMessages]);
 
-  const handleSwitchChnage = async () => {
+  const handleSwitchChange = async () => {
     try {
       const response = await axios.post<ApiResponse>("/api/accept-messages", {
         acceptMessages: !acceptMessages,
@@ -153,14 +151,14 @@ export default function DashboardPage() {
     }
   };
 
-  const { username } = session?.user as User;
+  const { username } = (session?.user as User) || "shahwaiz";
 
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const baseUrl = "http://localhost:3000/dashboard";
   const profileUrl = `${baseUrl}/u/${username}`;
 
-  if (!session || !session.user) {
-    return <div>Pleast login</div>;
-  }
+  // if (!session || !session.user) {
+  //   return <div>Pleast login</div>;
+  // }
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="space-y-8">
@@ -176,7 +174,7 @@ export default function DashboardPage() {
               </h2>
               <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap bg-white/40 p-2 rounded-lg">
                 <div className="flex-1 p-3 bg-muted rounded-lg text-sm text-muted-foreground break-all">
-                  {uniqueLink}
+                  {profileUrl}
                 </div>
                 <Button onClick={copyToClipboard} className="shrink-0">
                   <Copy className="h-4 w-4 mr-2" />
@@ -195,9 +193,11 @@ export default function DashboardPage() {
                 </p>
               </div>
               <Switch
+                {...register("acceptMessages")}
                 id="accept-messages"
                 checked={acceptMessages}
-                onCheckedChange={setAcceptMessages}
+                onCheckedChange={handleSwitchChange}
+                disabled={isSwitchLaoding}
               />
             </div>
 
@@ -211,9 +211,8 @@ export default function DashboardPage() {
                 <div className="grid gap-4">
                   {messages.map((message) => (
                     <MessageCard
-                      key={message.id}
-                      //   message={message.message}
-                      timestamp={message.timestamp}
+                      key={message?.id}
+                      message={message}
                       onMessageDelete={() => handleDeleteMessage(message.id)}
                     />
                   ))}
