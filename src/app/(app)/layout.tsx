@@ -12,13 +12,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900`}
-      >
-        <Navbar />
-        <main className="container mx-auto px-4 py-8">{children}</main>
-      </body>
-    </html>
+    <body className={`min-h-screen `}>
+      <Navbar />
+      <main className="container mx-auto px-4 py-8 ">{children}</main>
+    </body>
   );
 }
