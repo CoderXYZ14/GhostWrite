@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
+import { User } from "@/model/User";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -17,7 +18,7 @@ export const authOptions: NextAuthOptions = {
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req): Promise<any> {
+      async authorize(credentials: any): Promise<any> {
         if (!credentials?.username || !credentials?.password) {
           throw new Error("Email and password are required");
         }
@@ -27,9 +28,7 @@ export const authOptions: NextAuthOptions = {
           const user = await UserModel.findOne({
             $or: [
               { email: credentials.username },
-              {
-                username: credentials.username,
-              },
+              { username: credentials.username },
             ],
           });
 
@@ -64,7 +63,7 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async session({ session, user, token }) {
+    async session({ session, token }) {
       if (token) {
         session.user._id = token._id;
         session.user.isVerified = token.isVerified;
@@ -76,11 +75,6 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token._id = user._id?.toString();
-        /*
-        gives error initially as next auth dont let u take any
-        thing from user so u modify the user object types 
-        in types/next-auth.d.ts
-        */
         token.isVerified = user.isVerified;
         token.isAcceptingMessages = user.isAcceptingMessages;
         token.username = user.username;

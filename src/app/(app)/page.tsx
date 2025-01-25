@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import { MessagePreview } from "@/components/MessagePreview";
 import { Feature } from "@/components/Features";
 import { Footer } from "@/components/Footer";

@@ -1,4 +1,4 @@
-import { TypeIcon as type, type LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 
 interface FeatureProps {
   icon: LucideIcon;

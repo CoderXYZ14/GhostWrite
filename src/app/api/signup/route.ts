@@ -68,6 +68,17 @@ export async function POST(request: Request) {
         isAcceptingMessages: true,
         messages: [],
       });
+      if (!newUser) {
+        return Response.json(
+          {
+            success: false,
+            message: "Error registring user",
+          },
+          {
+            status: 500,
+          }
+        );
+      }
     }
     const emailResponse = await sendVerificationEmail(
       email,
@@ -89,6 +100,7 @@ export async function POST(request: Request) {
     return Response.json(
       {
         success: true,
+
         message: "User registered successfully. Please verify your email",
       },
       {

@@ -57,6 +57,7 @@ export function SignInForm() {
         router.replace("/dashboard");
       }
     } catch (error) {
+      console.error("Failed to sign in: ", error);
       toast({
         title: "An error occurred",
         description: "Please try again later.",

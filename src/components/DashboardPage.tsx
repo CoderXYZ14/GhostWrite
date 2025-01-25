@@ -17,25 +17,24 @@ import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import { User } from "next-auth";
 
-const initialMessages = [
-  {
-    content: "What's your favorite movie?",
-    createdAt: new Date("2024-01-30T18:15:00"),
-  },
-  {
-    content: "Share a favorite childhood memory.",
-    createdAt: new Date("2024-01-04T21:01:00"),
-  },
-  {
-    content:
-      "What's something you've always wanted to learn, but haven't had the chance yet?",
-    createdAt: new Date("2024-03-13T02:06:00"),
-  },
-];
+// const initialMessages = [
+//   {
+//     content: "What's your favorite movie?",
+//     createdAt: new Date("2024-01-30T18:15:00"),
+//   },
+//   {
+//     content: "Share a favorite childhood memory.",
+//     createdAt: new Date("2024-01-04T21:01:00"),
+//   },
+//   {
+//     content:
+//       "What's something you've always wanted to learn, but haven't had the chance yet?",
+//     createdAt: new Date("2024-03-13T02:06:00"),
+//   },
+// ];
 
 export default function DashboardPage() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLaoding, setIsSwitchLoading] = useState(false);
 
   //we are using optimistic ui ie in frontend shows ui chnages but not done immediately in backend
@@ -50,6 +49,7 @@ export default function DashboardPage() {
         description: "Your unique link has been copied to clipboard.",
       });
     } catch (err) {
+      console.error("Failed to copy: ", err);
       toast({
         title: "Failed to copy",
         description: "Please try copying the link manually.",
@@ -91,11 +91,10 @@ export default function DashboardPage() {
     } finally {
       setIsSwitchLoading(false);
     }
-  }, [setValue]);
+  }, [setValue, toast]);
 
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
-      setIsLoading(false);
       setIsSwitchLoading(false);
       try {
         const response = await axios.get<ApiResponse>("/api/get-messages");
@@ -116,11 +115,10 @@ export default function DashboardPage() {
           variant: "destructive",
         });
       } finally {
-        setIsLoading(false);
         setIsSwitchLoading(false);
       }
     },
-    [setIsLoading, setMessages]
+    [setMessages, toast]
   );
 
   useEffect(() => {
