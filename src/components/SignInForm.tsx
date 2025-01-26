@@ -141,7 +141,7 @@ export function SignInForm() {
       </Form>
       <div className="mt-4 sm:mt-6 text-center">
         <p className="text-sm text-gray-600 dark:text-neutral-300">
-          Don't have an account?
+          {"Don't have an account?"}
           <Link
             href="/signup"
             className="font-medium text-purple-600 dark:text-purple-400 hover:underline"
