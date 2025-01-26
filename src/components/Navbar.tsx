@@ -21,7 +21,7 @@ const Navbar = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <nav className="bg-background ">
+    <nav className="bg-background">
       <div className="max-w-7xl border-b dark:border-white/50 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center">
@@ -31,7 +31,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {session ? (
               <div className="flex items-center space-x-4">
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-muted-foreground hidden sm:block">
                   Welcome,{" "}
                   {String(user?.username).charAt(0).toUpperCase() +
                     String(user?.username).slice(1) || "User"}
