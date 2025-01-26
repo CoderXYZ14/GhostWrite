@@ -21,7 +21,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(
         credentials: Record<string, string> | undefined
       ): Promise<User | null> {
-        if (!credentials?.username || !credentials?.password) {
+        if (!credentials?.identifier || !credentials?.password) {
           throw new Error("Email and password are required");
         }
 
@@ -29,8 +29,8 @@ export const authOptions: NextAuthOptions = {
         try {
           const user = await UserModel.findOne({
             $or: [
-              { email: credentials.username },
-              { username: credentials.username },
+              { email: credentials.identifier },
+              { username: credentials.identifier },
             ],
           });
 

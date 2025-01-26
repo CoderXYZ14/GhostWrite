@@ -69,7 +69,7 @@ export function SignInForm() {
   };
 
   return (
-    <div className="w-full max-w-md p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
+    <div className="container max-w-xl px-4 py-8 sm:p-6 md:p-8 space-y-6 sm:space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-xl mx-auto">
       <div className="text-center">
         <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
           Login your account

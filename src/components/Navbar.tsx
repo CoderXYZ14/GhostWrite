@@ -32,12 +32,16 @@ const Navbar = () => {
             {session ? (
               <div className="flex items-center space-x-4">
                 <span className="text-sm text-muted-foreground">
-                  Welcome, {user?.name || "User"}
+                  Welcome,{" "}
+                  {String(user?.username).charAt(0).toUpperCase() +
+                    String(user?.username).slice(1) || "User"}
                 </span>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Avatar className="h-8 w-8 cursor-pointer">
-                      <AvatarFallback>{user?.name?.[0] || "U"}</AvatarFallback>
+                      <AvatarFallback className=" dark:bg-purple-600">
+                        {user?.username?.[0].toUpperCase() || "U"}
+                      </AvatarFallback>
                     </Avatar>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">

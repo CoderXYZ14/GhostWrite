@@ -1,13 +1,16 @@
+import Navbar from "@/components/Navbar";
+
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <body
-      className={`min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-indigo-100 dark:from-gray-900 dark:via-purple-900 dark:to-indigo-900`}
-    >
-      {children}
+    <body className="min-h-screen">
+      <Navbar />
+      <main className="container mx-auto px-4 py-8 flex flex-col">
+        {children}
+      </main>
     </body>
   );
 }
