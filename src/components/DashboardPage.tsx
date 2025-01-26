@@ -61,7 +61,8 @@ export default function DashboardPage() {
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
-      const response = await axios.get<ApiResponse>("/api/accept-messages");
+      const response = await axios.get<ApiResponse>("/api/accept-message");
+      console.log("response", response.data);
       setValue("acceptMessages", response.data.isAcceptingMessages);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
@@ -77,45 +78,46 @@ export default function DashboardPage() {
     }
   }, [setValue, toast]);
 
-  const fetchMessages = useCallback(
-    async (refresh: boolean = false) => {
-      setIsSwitchLoading(false);
-      try {
-        const response = await axios.get<ApiResponse>("/api/get-messages");
-        setMessages(response.data.messages || []);
-        if (refresh) {
-          toast({
-            title: "Refreshed messages",
-            description: "Showing latest messages",
-          });
-        }
-      } catch (error) {
-        const axiosError = error as AxiosError<ApiResponse>;
-        toast({
-          title: "Error",
-          description:
-            axiosError.response?.data.message ||
-            "Failed to fetch message acceptance status",
-          variant: "destructive",
-        });
-      } finally {
-        setIsSwitchLoading(false);
-      }
-    },
-    [setMessages, toast]
-  );
+  // const fetchMessages = useCallback(
+  //   async (refresh: boolean = false) => {
+  //     setIsSwitchLoading(false);
+  //     try {
+  //       const response = await axios.get<ApiResponse>("/api/get-messages");
+  //       setMessages(response.data.messages || []);
+  //       if (refresh) {
+  //         toast({
+  //           title: "Refreshed messages",
+  //           description: "Showing latest messages",
+  //         });
+  //       }
+  //     } catch (error) {
+  //       const axiosError = error as AxiosError<ApiResponse>;
+  //       toast({
+  //         title: "Error",
+  //         description:
+  //           axiosError.response?.data.message ||
+  //           "Failed to fetch message acceptance status",
+  //         variant: "destructive",
+  //       });
+  //     } finally {
+  //       setIsSwitchLoading(false);
+  //     }
+  //   },
+  //   [setMessages, toast]
+  // );
 
   useEffect(() => {
     if (!session || !session.user) return;
-    fetchMessages();
+    // fetchMessages();
     fetchAcceptMessage();
-  }, [session, setValue, fetchAcceptMessage, fetchMessages]);
+  }, [session, setValue, fetchAcceptMessage /*fetchMessages*/]);
 
   const handleSwitchChange = async () => {
     try {
-      const response = await axios.post<ApiResponse>("/api/accept-messages", {
+      const response = await axios.post<ApiResponse>("/api/accept-message", {
         acceptMessages: !acceptMessages,
       });
+      console.log("response", response.data);
       setValue("acceptMessages", !acceptMessages);
       toast({
         title: response.data.message,
