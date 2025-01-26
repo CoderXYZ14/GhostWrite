@@ -44,7 +44,7 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link href="/signup">
+                  <Link href="/dashboard">
                     <Button
                       size="lg"
                       className="bg-purple-600 hover:bg-purple-700"

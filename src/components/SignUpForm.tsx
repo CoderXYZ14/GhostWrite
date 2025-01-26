@@ -32,7 +32,6 @@ export function SignUpForm() {
   const { toast } = useToast();
   const router = useRouter();
 
-  //zod implementation
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -68,7 +67,6 @@ export function SignUpForm() {
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
     try {
-      console.log("data is ", data);
       const response = await axios.post<ApiResponse>("/api/signup", data);
       toast({
         title: "Success",
@@ -89,12 +87,12 @@ export function SignUpForm() {
   };
 
   return (
-    <div className="container max-w-xl px-4 py-8 sm:p-6 md:p-8 space-y-6 sm:space-y-8 bg-white dark:bg-gray-800 rounded-lg shadow-xl mx-auto">
+    <div className="container max-w-xl px-4 py-8 sm:p-6 md:p-8 space-y-6 sm:space-y-8 bg-white dark:bg-neutral-800 rounded-lg shadow-xl mx-auto">
       <div className="text-center">
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-neutral-100 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
           Create your account
         </h2>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-sm text-gray-600 dark:text-neutral-300">
           Join Ghost-Writes and start sending anonymous messages today!
         </p>
       </div>
@@ -108,13 +106,13 @@ export function SignUpForm() {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <FormLabel className="text-sm font-medium text-purple-700 dark:text-purple-300">
                   Username
                 </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="ghostwriter123"
-                    className="mt-1"
+                    className="mt-1 dark:bg-neutral-800 dark:border-neutral-700"
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
@@ -139,14 +137,14 @@ export function SignUpForm() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <FormLabel className="text-sm font-medium text-purple-700 dark:text-purple-300">
                   Email
                 </FormLabel>
                 <FormControl>
                   <Input
                     type="email"
                     placeholder="you@example.com"
-                    className="mt-1"
+                    className="mt-1 dark:bg-neutral-800 dark:border-neutral-700"
                     {...field}
                   />
                 </FormControl>
@@ -160,14 +158,14 @@ export function SignUpForm() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <FormLabel className="text-sm font-medium text-purple-700 dark:text-purple-300">
                   Password
                 </FormLabel>
                 <FormControl>
                   <Input
                     type="password"
                     placeholder="••••••••"
-                    className="mt-1"
+                    className="mt-1 dark:bg-neutral-800 dark:border-neutral-700"
                     {...field}
                   />
                 </FormControl>
@@ -179,7 +177,7 @@ export function SignUpForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:from-purple-600 dark:to-indigo-700 dark:hover:from-purple-700 dark:hover:to-indigo-800"
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:from-purple-500 dark:to-blue-400 dark:hover:from-purple-600 dark:hover:to-blue-500"
           >
             {isSubmitting ? (
               <>
@@ -192,11 +190,11 @@ export function SignUpForm() {
         </form>
       </Form>
       <div className="mt-4 sm:mt-6 text-center">
-        <p className="text-sm text-gray-600 dark:text-gray-400">
+        <p className="text-sm text-gray-600 dark:text-neutral-300">
           Already have an account?{" "}
           <Link
             href="/signin"
-            className="font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
+            className="font-medium text-purple-600 dark:text-purple-400 hover:underline"
           >
             Sign in
           </Link>

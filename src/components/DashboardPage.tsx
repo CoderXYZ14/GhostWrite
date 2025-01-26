@@ -147,20 +147,23 @@ export default function DashboardPage() {
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold text-foreground mb-6">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500">
             User Dashboard
           </h1>
 
           <div className="space-y-6">
-            <div className="space-y-4">
+            <div className="space-y-4 p-6 ">
               <h2 className="text-xl font-semibold text-foreground">
                 Copy Your Unique Link
               </h2>
-              <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap bg-white/40 p-2 rounded-lg">
+              <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap bg-neutral-100 dark:bg-neutral-600 p-2 rounded-lg">
                 <div className="flex-1 p-3 bg-muted rounded-lg text-sm text-muted-foreground break-all">
                   {profileUrl}
                 </div>
-                <Button onClick={copyToClipboard} className="shrink-0">
+                <Button
+                  onClick={copyToClipboard}
+                  className="shrink-0 bg-purple-600 hover:bg-purple-700 dark:bg-purple-500 dark:hover:bg-purple-600"
+                >
                   <Copy className="h-4 w-4 mr-2" />
                   Copy
                 </Button>
@@ -169,9 +172,14 @@ export default function DashboardPage() {
 
             <Separator />
 
-            <div className="flex items-center justify-between bg-white/40 mx-auto p-4">
+            <div className="flex items-center justify-between bg-neutral-100 dark:bg-neutral-600 mx-auto p-4">
               <div className="space-y-0.5">
-                <Label htmlFor="accept-messages">Accept Messages</Label>
+                <Label
+                  htmlFor="accept-messages"
+                  className="text-purple-600 font-bold"
+                >
+                  Accept Messages
+                </Label>
                 <p className="text-sm text-muted-foreground">
                   Toggle to control whether you can receive new messages
                 </p>
