@@ -10,7 +10,7 @@ export function Footer() {
             <span className="ml-2 text-xl font-bold">Ghost Writes</span>
           </div>
           <p className="text-sm text-muted-foreground">
-            © 2023 Ghost Writes. All rights reserved.
+            © 2025 Ghost Writes. All rights reserved.
           </p>
         </div>
       </div>
